@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Kartu Siswa</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; color: #333; }
+        #reader { width: 100%; max-width: 500px; margin: auto; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; }
+        #result { margin-top: 20px; padding: 15px; background: #e7ffea; display: none; border-radius: 8px; border: 1px solid #28a745; }
+        .btn-group { margin-top: 20px; margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; }
+        button { padding: 12px 20px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 5px; font-weight: bold; flex: 1; max-width: 150px; }
+        #start-btn { background: #007bff; max-width: 100%; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; font-size: 14px; }
+        th { background: #eee; }
+    </style>
+</head>
+<body>
+
+    <h2>Scan Student Card</h2>
+    <p style="font-size: 12px; color: #666;">Klik tombol di bawah untuk mulai memindai</p>
+    
+    <button id="start-btn" onclick="startScanner()">Mulai Scanner</button>
+
+    <div id="reader"></div>
+    
+    <div id="result">
+        <strong>Terdeteksi:</strong> <br>
+        <span id="scan-text" style="font-size: 18px; color: #28a745; word-break: break-all;"></span>
+    </div>
+
+    <div class="btn-group">
+        <button onclick="downloadCSV()">Download CSV</button>
+        <button onclick="clearData()" style="background:#dc3545;">Hapus Semua</button>
+    </div>
+
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>Data Siswa</th>
+                <th>Waktu Scan</th>
+            </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+    </table>
+
+    <script>
+        const historyBody = document.getElementById('historyBody');
+        const scanText = document.getElementById('scan-text');
+        const resultDiv = document.getElementById('result');
+        let html5QrCode;
+
+        function playBeep() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1);
+            } catch(e) { console.log("Audio diblokir"); }
+        }
+
+        function saveData(val) {
+            const now = new Date();
+            const fullDate = `${now.getDate()} ${now.toLocaleString('id-ID', { month: 'long' })} ${now.getFullYear()} ${now.toLocaleTimeString('id-ID')}`;
+            
+            let storage = JSON.parse(localStorage.getItem('scan_logs')) || [];
+            
+            if(storage.length > 0 && storage[0].info === val) {
+                const diff = new Date() - new Date(storage[0].timestamp);
+                if(diff < 3000) return false; 
+            }
+
+            storage.unshift({ info: val, date: fullDate, timestamp: new Date().toISOString() });
+            localStorage.setItem('scan_logs', JSON.stringify(storage));
+            renderTable();
+            return true;
+        }
+
+        function renderTable() {
+            let storage = JSON.parse(localStorage.getItem('scan_logs')) || [];
+            historyBody.innerHTML = storage.map(item => `
+                <tr><td>${item.info}</td><td>${item.date}</td></tr>
+            `).join('');
+        }
+
+        // PERBAIKAN: Fungsi inisialisasi di dalam function agar bisa dipicu tombol
+        function startScanner() {
+            document.getElementById('start-btn').style.display = 'none';
+            html5QrCode = new Html5Qrcode("reader");
+            const config = { fps: 15, qrbox: { width: 250, height: 250 } };
+
+            html5QrCode.start(
+                { facingMode: "environment" }, 
+                config, 
+                (decodedText) => {
+                    if(saveData(decodedText)) {
+                        playBeep();
+                        scanText.innerText = decodedText;
+                        resultDiv.style.display = 'block';
+                        if(navigator.vibrate) navigator.vibrate(100);
+                    }
+                }
+            ).catch(err => {
+                alert("Gagal akses kamera: " + err);
+                document.getElementById('start-btn').style.display = 'block';
+            });
+        }
+
+        function downloadCSV() {
+            let storage = JSON.parse(localStorage.getItem('scan_logs')) || [];
+            if (storage.length === 0) return alert("Belum ada data!");
+            let csv = "Data Siswa,Waktu\n" + storage.map(r => `"${r.info}","${r.date}"`).join("\n");
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", "rekap_absen.csv");
+            link.click();
+        }
+
+        function clearData() {
+            if(confirm("Hapus semua riwayat?")) {
+                localStorage.removeItem('scan_logs');
+                renderTable();
+            }
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>
