@@ -195,15 +195,32 @@
     }
 
     function downloadCSV() {
-        let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-        if(logs.length === 0) return alert("Data kosong!");
-        let csv = "Data Siswa,Waktu\n" + logs.map(l => `"${l.info}","${l.time}"`).join("\n");
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "absensi_sda.csv";
-        a.click();
-    }
+    let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+    if(logs.length === 0) return alert("Data kosong!");
+
+    // 1. Ambil data waktu untuk nama file
+    const now = new Date();
+    const namaHari = now.toLocaleDateString('id-ID', { weekday: 'long' });
+    const tanggal = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+    
+    // JamMenitDetik agar benar-benar unik
+    const timestamp = now.getHours().toString().padStart(2, '0') + 
+                      now.getMinutes().toString().padStart(2, '0') + 
+                      now.getSeconds().toString().padStart(2, '0');
+
+    // 2. Susun nama file: Hari-Tanggal-Jam-absensi_sda.csv
+    const namaFileUnik = `${namaHari}-${tanggal}-${timestamp}-absensi_sda.csv`;
+
+    let csv = "Data Siswa,Waktu\n" + logs.map(l => `"${l.info}","${l.time}"`).join("\n");
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    
+    // Gunakan nama file unik di sini
+    a.download = namaFileUnik; 
+    a.click();
+}
+
 
     function clearData() {
         if(confirm("Hapus semua riwayat scan?")) {
