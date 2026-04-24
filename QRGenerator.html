@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator Pro - PNG</title>
+    <!-- Kita pakai CDN yang stabil -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 40px; background: #f4f7f6; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: inline-block; }
+        input { padding: 12px; width: 280px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #3498db; }
+        .btn-group { margin-top: 20px; }
+        button { padding: 12px 25px; font-weight: bold; cursor: pointer; border: none; border-radius: 8px; margin: 5px; transition: 0.3s; }
+        .btn-gen { background: #3498db; color: white; }
+        .btn-down { background: #2ecc71; color: white; display: none; } /* Sembunyi dulu */
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+        #qrcode { margin: 25px auto; padding: 15px; background: #fff; display: inline-block; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>QR Code Generator PNG</h2>
+        <input type="text" id="text-input" placeholder="Ketik nama atau teks di sini...">
+        
+        <div class="btn-group">
+            <button class="btn-gen" onclick="generateQR()">Buat QR Code</button>
+            <button id="download-btn" class="btn-down" onclick="downloadPNG()">Download PNG</button>
+        </div>
+
+        <div id="qrcode"></div>
+    </div>
+
+    <script>
+        let qrcodeCreator = null;
+
+        function generateQR() {
+            const text = document.getElementById("text-input").value;
+            const container = document.getElementById("qrcode");
+            const downloadBtn = document.getElementById("download-btn");
+
+            if (!text.trim()) {
+                alert("Isi teksnya dulu, lur!");
+                return;
+            }
+
+            // Bersihkan kontainer
+            container.innerHTML = "";
+            
+            // Buat QR Code baru
+            qrcodeCreator = new QRCode(container, {
+                text: text,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            // Tampilkan tombol download setelah QR muncul
+            downloadBtn.style.display = "inline-block";
+        }
+
+        function downloadPNG() {
+            const container = document.getElementById("qrcode");
+            // QRCode.js menghasilkan <canvas> dan <img>
+            const canvas = container.querySelector("canvas");
+            
+            if (canvas) {
+                const image = canvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                const fileName = document.getElementById("text-input").value.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                
+                link.href = image;
+                link.download = `qr_${fileName}.png`;
+                link.click();
+            } else {
+                alert("Error: Canvas tidak ditemukan!");
+            }
+        }
+    </script>
+</body>
+</html>
