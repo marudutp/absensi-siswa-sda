@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDA Music - System</title>
+    <title>SDA Music - Management System</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,24 +12,18 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 20px; background: #f0f2f5; color: #333; }
         .container { max-width: 600px; margin: auto; }
         
-        /* Form Label Styling */
+        /* Form Styling */
         .form-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: left; }
         .input-group { margin-bottom: 15px; display: flex; align-items: center; }
         .input-group label { width: 100px; font-weight: bold; font-size: 14px; }
         .input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         
-        /* Style ID Card Vertikal */
+        /* ID Card Styling */
         #id-card-result { display: flex; justify-content: center; margin-top: 20px; }
         .id-card {
-            width: 300px;
-            height: 480px;
-            background: white;
-            border-radius: 15px;
-            border: 1px solid #ccc;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            position: relative;
-            overflow: hidden;
-            display: none;
+            width: 300px; height: 480px; background: white; border-radius: 15px;
+            border: 1px solid #ccc; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: relative; overflow: hidden; display: none;
         }
         .card-header { background: #28a745; color: white; padding: 20px 10px; font-weight: bold; font-size: 18px; border-bottom: 5px solid #218838; text-align: center; }
         .card-body { padding: 20px; text-align: center; }
@@ -43,11 +37,20 @@
         .btn-success { background: #28a745; }
         .btn-warning { background: #ffc107; color: #212529; }
         .btn-danger { background: #dc3545; }
-        
+        .btn-block { width: 100%; margin: 10px 0; }
+
+        /* Scanner & Table Styling */
         #reader { width: 100%; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; font-size: 13px; }
         
+        /* PERBAIKAN SCROLL TABEL */
+        .table-container {
+            max-height: 350px; overflow-y: auto; background: white;
+            border: 1px solid #ddd; border-radius: 8px; margin-top: 10px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { position: sticky; top: 0; background: #eee; padding: 10px; font-size: 13px; z-index: 10; }
+        td { border-bottom: 1px solid #ddd; padding: 10px; font-size: 13px; }
+
         @media print {
             body * { visibility: hidden; }
             #id-card-result, #id-card-result * { visibility: visible; }
@@ -63,14 +66,14 @@
     <div class="form-card">
         <h3 style="text-align: center;">Buat Kartu Siswa</h3>
         <div class="input-group">
-            <label for="inputNama">Nama</label>
-            <input type="text" id="inputNama" placeholder="Contoh: Budi Santoso">
+            <label>Nama</label>
+            <input type="text" id="inputNama" placeholder="Nama Lengkap">
         </div>
         <div class="input-group">
-            <label for="inputJoinDate">Join Date</label>
+            <label>Join Date</label>
             <input type="date" id="inputJoinDate">
         </div>
-        <button class="btn btn-primary" onclick="generateIDCard()" style="width: 100%;">Generate Kartu</button>
+        <button class="btn btn-primary btn-block" onclick="generateIDCard()">Generate Kartu</button>
     </div>
 
     <div id="id-card-result">
@@ -84,12 +87,12 @@
                 <div class="student-name" id="displayNama">NAMA SISWA</div>
                 <div class="join-date">Joined: <span id="displayJoinDate">-</span></div>
                 <hr>
-                <p style="font-size: 10px; color: #999;">Kartu ini merupakan tanda pengenal resmi siswa SDA Music</p>
+                <p style="font-size: 10px; color: #999;">Tanda pengenal resmi siswa SDA Music</p>
             </div>
         </div>
     </div>
 
-    <div id="actionButtons" style="margin-top: 15px;">
+    <div style="margin-top: 15px;">
         <button id="btnPrint" class="btn btn-success" style="display:none;" onclick="window.print()">Cetak Kartu</button>
         <button id="btnDownload" class="btn btn-warning" style="display:none;" onclick="downloadImage()">Download Gambar</button>
     </div>
@@ -97,24 +100,35 @@
     <hr style="margin: 40px 0;">
 
     <h3>Absensi Scanner</h3>
-    <button id="start-btn" class="btn btn-success" onclick="startScanner()" style="width: 100%;">Aktifkan Kamera</button>
+    <button id="start-btn" class="btn btn-success btn-block" onclick="startScanner()">Aktifkan Kamera</button>
     <div id="reader"></div>
-    <div id="result" style="display:none; background: #e7ffea; padding: 15px; margin-bottom: 20px;">
+    
+    <div id="result" style="display:none; background: #e7ffea; padding: 15px; border-radius: 8px; border: 1px solid #28a745; margin-bottom: 20px;">
         <strong>Terdeteksi:</strong> <br>
-        <span id="scan-text"></span>
+        <span id="scan-text" style="font-size: 16px; color: #28a745; font-weight: bold;"></span>
     </div>
 
-    <table>
-        <thead><tr><th>Siswa / ID</th><th>Waktu Scan</th></tr></thead>
-        <tbody id="historyBody"></tbody>
-    </table>
+    <div style="display: flex; gap: 5px;">
+        <button class="btn btn-primary" style="flex: 1;" onclick="downloadCSV()">Download CSV</button>
+        <button class="btn btn-danger" style="flex: 1;" onclick="clearData()">Hapus Semua</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr><th>Siswa / ID</th><th>Waktu Scan</th></tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+        </table>
+    </div>
 </div>
 
 <script>
+    // LOGIC PEMBUAT KARTU
     function generateIDCard() {
         const nama = document.getElementById('inputNama').value;
         const joinDate = document.getElementById('inputJoinDate').value;
-        if(!nama || !joinDate) return alert("Lengkapi data dulu Lur!");
+        if(!nama || !joinDate) return alert("Isi data dulu Lur!");
 
         document.getElementById('displayNama').innerText = nama;
         document.getElementById('displayJoinDate').innerText = joinDate;
@@ -125,21 +139,16 @@
         document.getElementById('qrcode').innerHTML = "";
         new QRCode(document.getElementById("qrcode"), {
             text: `SDA-${nama}-${joinDate}`,
-            width: 150,
-            height: 150
+            width: 150, height: 150
         });
     }
 
-    // FUNGSI BARU: Download Kartu sebagai Gambar
     function downloadImage() {
         const card = document.getElementById('printableCard');
-        const namaSiswa = document.getElementById('displayNama').innerText;
-        
-        // Memastikan background tetap putih saat di-render ke canvas
-        html2canvas(card, { backgroundColor: null, scale: 2 }).then(canvas => {
+        html2canvas(card, { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `Kartu-SDA-${namaSiswa}.png`;
-            link.href = canvas.toDataURL("image/png");
+            link.download = `SDA-${document.getElementById('displayNama').innerText}.png`;
+            link.href = canvas.toDataURL();
             link.click();
         });
     }
@@ -149,18 +158,30 @@
     function startScanner() {
         document.getElementById('start-btn').style.display = 'none';
         html5QrCode = new Html5Qrcode("reader");
-        html5QrCode.start({ facingMode: "environment" }, { fps: 15, qrbox: 250 }, (text) => {
-            if(saveData(text)) {
-                document.getElementById('scan-text').innerText = text;
-                document.getElementById('result').style.display = 'block';
-                beep();
+        html5QrCode.start(
+            { facingMode: "environment" }, 
+            { fps: 15, qrbox: 250 }, 
+            (text) => {
+                if(saveData(text)) {
+                    document.getElementById('scan-text').innerText = text;
+                    document.getElementById('result').style.display = 'block';
+                    beep();
+                }
             }
-        });
+        ).catch(err => alert("Izin kamera ditolak atau error."));
     }
 
     function saveData(val) {
+        const now = new Date();
+        const timeStr = now.toLocaleString('id-ID');
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-        logs.unshift({ info: val, time: new Date().toLocaleString('id-ID') });
+        
+        // Cooldown 3 detik
+        if(logs.length > 0 && logs[0].info === val) {
+            if(new Date() - new Date(logs[0].ts) < 3000) return false;
+        }
+
+        logs.unshift({ info: val, time: timeStr, ts: new Date() });
         localStorage.setItem('sda_logs', JSON.stringify(logs));
         renderTable();
         return true;
@@ -168,7 +189,27 @@
 
     function renderTable() {
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-        document.getElementById('historyBody').innerHTML = logs.map(i => `<tr><td>${i.info}</td><td>${i.time}</td></tr>`).join('');
+        document.getElementById('historyBody').innerHTML = logs.map(i => 
+            `<tr><td>${i.info}</td><td>${i.time}</td></tr>`
+        ).join('');
+    }
+
+    function downloadCSV() {
+        let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+        if(logs.length === 0) return alert("Data kosong!");
+        let csv = "Data Siswa,Waktu\n" + logs.map(l => `"${l.info}","${l.time}"`).join("\n");
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "absensi_sda.csv";
+        a.click();
+    }
+
+    function clearData() {
+        if(confirm("Hapus semua riwayat scan?")) {
+            localStorage.removeItem('sda_logs');
+            renderTable();
+        }
     }
 
     function beep() {
@@ -180,5 +221,6 @@
 
     renderTable();
 </script>
+
 </body>
 </html>
