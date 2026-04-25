@@ -10,35 +10,44 @@
     
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 20px; background: #f0f2f5; color: #333; }
-        .container { max-width: 600px; margin: auto; }
+        .container { max-width: 800px; margin: auto; } /* Dilebarkan dikit buat kolom catatan */
         
+<<<<<<< HEAD
         /* Form Styling */
+=======
+>>>>>>> 24c042f (add catatan untuk siswa)
         .form-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: left; }
         .input-group { margin-bottom: 15px; display: flex; align-items: center; }
         .input-group label { width: 100px; font-weight: bold; font-size: 14px; }
         .input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         
+<<<<<<< HEAD
         /* ID Card Styling */
         #id-card-result { display: flex; justify-content: center; margin-top: 20px; }
         .id-card {
             width: 300px; height: 480px; background: white; border-radius: 15px;
             border: 1px solid #ccc; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
             position: relative; overflow: hidden; display: none;
+=======
+        .id-card {
+            width: 300px; height: 480px; background: white; border-radius: 15px;
+            border: 1px solid #ccc; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: relative; overflow: hidden; display: none; margin: auto;
+>>>>>>> 24c042f (add catatan untuk siswa)
         }
-        .card-header { background: #28a745; color: white; padding: 20px 10px; font-weight: bold; font-size: 18px; border-bottom: 5px solid #218838; text-align: center; }
-        .card-body { padding: 20px; text-align: center; }
+        .card-header { background: #28a745; color: white; padding: 20px 10px; font-weight: bold; font-size: 18px; border-bottom: 5px solid #218838; }
+        .card-body { padding: 20px; }
         .student-name { font-size: 20px; font-weight: bold; margin-top: 15px; text-transform: uppercase; }
-        .join-date { font-size: 14px; color: #666; margin-bottom: 20px; }
         #qrcode { display: flex; justify-content: center; margin: 20px 0; }
         
-        /* Buttons */
-        .btn { padding: 12px 20px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; color: white; transition: 0.3s; margin: 5px; }
+        .btn { padding: 10px 15px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; color: white; transition: 0.3s; margin: 2px; }
         .btn-primary { background: #007bff; }
         .btn-success { background: #28a745; }
         .btn-warning { background: #ffc107; color: #212529; }
         .btn-danger { background: #dc3545; }
         .btn-block { width: 100%; margin: 10px 0; }
 
+<<<<<<< HEAD
         /* Scanner & Table Styling */
         #reader { width: 100%; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; margin-bottom: 20px; }
         
@@ -50,11 +59,25 @@
         table { width: 100%; border-collapse: collapse; }
         th { position: sticky; top: 0; background: #eee; padding: 10px; font-size: 13px; z-index: 10; }
         td { border-bottom: 1px solid #ddd; padding: 10px; font-size: 13px; }
+=======
+        #reader { width: 100%; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; margin-bottom: 20px; }
+        
+        /* SCROLL TABEL */
+        .table-container {
+            max-height: 400px; overflow-y: auto; background: white;
+            border: 1px solid #ddd; border-radius: 8px; margin-top: 10px;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { position: sticky; top: 0; background: #eee; padding: 12px; font-size: 13px; z-index: 10; border-bottom: 2px solid #ccc; }
+        td { border-bottom: 1px solid #ddd; padding: 10px; font-size: 13px; text-align: left; }
+
+        /* Input Catatan di Tabel */
+        .note-input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+>>>>>>> 24c042f (add catatan untuk siswa)
 
         @media print {
             body * { visibility: hidden; }
             #id-card-result, #id-card-result * { visibility: visible; }
-            #id-card-result { position: absolute; left: 0; top: 0; }
         }
     </style>
 </head>
@@ -64,6 +87,7 @@
     <h2>SDA Music Management</h2>
 
     <div class="form-card">
+<<<<<<< HEAD
         <h3 style="text-align: center;">Buat Kartu Siswa</h3>
         <div class="input-group">
             <label>Nama</label>
@@ -73,32 +97,46 @@
             <label>Join Date</label>
             <input type="date" id="inputJoinDate">
         </div>
+=======
+        <h3 style="text-align: center;">ID Card Generator</h3>
+        <div class="input-group"><label>Nama</label><input type="text" id="inputNama" placeholder="Nama Lengkap"></div>
+        <div class="input-group"><label>Join Date</label><input type="date" id="inputJoinDate"></div>
+>>>>>>> 24c042f (add catatan untuk siswa)
         <button class="btn btn-primary btn-block" onclick="generateIDCard()">Generate Kartu</button>
     </div>
 
     <div id="id-card-result">
         <div id="printableCard" class="id-card">
-            <div class="card-header">
-                SDA MUSIC<br>
-                <span style="font-size: 12px; font-weight: normal;">Student ID Card</span>
-            </div>
+            <div class="card-header">SDA MUSIC<br><span style="font-size: 11px; font-weight: normal;">Student ID Card</span></div>
             <div class="card-body">
                 <div id="qrcode"></div>
                 <div class="student-name" id="displayNama">NAMA SISWA</div>
+<<<<<<< HEAD
                 <div class="join-date">Joined: <span id="displayJoinDate">-</span></div>
                 <hr>
                 <p style="font-size: 10px; color: #999;">Tanda pengenal resmi siswa SDA Music</p>
+=======
+                <div style="font-size: 14px; color: #666; margin-bottom: 20px;">Joined: <span id="displayJoinDate">-</span></div>
+                <hr><p style="font-size: 9px; color: #999;">Tanda pengenal resmi siswa SDA Music</p>
+>>>>>>> 24c042f (add catatan untuk siswa)
             </div>
         </div>
     </div>
 
+<<<<<<< HEAD
     <div style="margin-top: 15px;">
         <button id="btnPrint" class="btn btn-success" style="display:none;" onclick="window.print()">Cetak Kartu</button>
         <button id="btnDownload" class="btn btn-warning" style="display:none;" onclick="downloadImage()">Download Gambar</button>
+=======
+    <div style="margin-top: 10px;">
+        <button id="btnPrint" class="btn btn-success" style="display:none;" onclick="window.print()">Cetak</button>
+        <button id="btnDownload" class="btn btn-warning" style="display:none;" onclick="downloadImage()">Download PNG</button>
+>>>>>>> 24c042f (add catatan untuk siswa)
     </div>
 
-    <hr style="margin: 40px 0;">
+    <hr style="margin: 30px 0;">
 
+<<<<<<< HEAD
     <h3>Absensi Scanner</h3>
     <button id="start-btn" class="btn btn-success btn-block" onclick="startScanner()">Aktifkan Kamera</button>
     <div id="reader"></div>
@@ -106,6 +144,13 @@
     <div id="result" style="display:none; background: #e7ffea; padding: 15px; border-radius: 8px; border: 1px solid #28a745; margin-bottom: 20px;">
         <strong>Terdeteksi:</strong> <br>
         <span id="scan-text" style="font-size: 16px; color: #28a745; font-weight: bold;"></span>
+=======
+    <h3>Absensi & Jurnal Harian</h3>
+    <button id="start-btn" class="btn btn-success btn-block" onclick="startScanner()">Aktifkan Kamera</button>
+    <div id="reader"></div>
+    <div id="result" style="display:none; background: #e7ffea; padding: 15px; margin-bottom: 20px; border: 1px solid #28a745; border-radius: 8px;">
+        <strong>Terdeteksi:</strong> <span id="scan-text"></span>
+>>>>>>> 24c042f (add catatan untuk siswa)
     </div>
 
     <div style="display: flex; gap: 5px;">
@@ -116,7 +161,15 @@
     <div class="table-container">
         <table>
             <thead>
+<<<<<<< HEAD
                 <tr><th>Siswa / ID</th><th>Waktu Scan</th></tr>
+=======
+                <tr>
+                    <th style="width: 30%;">Siswa / ID</th>
+                    <th style="width: 25%;">Waktu Scan</th>
+                    <th style="width: 45%;">Catatan Pelajaran</th>
+                </tr>
+>>>>>>> 24c042f (add catatan untuk siswa)
             </thead>
             <tbody id="historyBody"></tbody>
         </table>
@@ -124,11 +177,19 @@
 </div>
 
 <script>
+<<<<<<< HEAD
     // LOGIC PEMBUAT KARTU
     function generateIDCard() {
         const nama = document.getElementById('inputNama').value;
         const joinDate = document.getElementById('inputJoinDate').value;
         if(!nama || !joinDate) return alert("Isi data dulu Lur!");
+=======
+    // GENERATE KARTU
+    function generateIDCard() {
+        const nama = document.getElementById('inputNama').value;
+        const joinDate = document.getElementById('inputJoinDate').value;
+        if(!nama || !joinDate) return alert("Lengkapi data!");
+>>>>>>> 24c042f (add catatan untuk siswa)
 
         document.getElementById('displayNama').innerText = nama;
         document.getElementById('displayJoinDate').innerText = joinDate;
@@ -137,6 +198,7 @@
         document.getElementById('btnDownload').style.display = 'inline-block';
 
         document.getElementById('qrcode').innerHTML = "";
+<<<<<<< HEAD
         new QRCode(document.getElementById("qrcode"), {
             text: `SDA-${nama}-${joinDate}`,
             width: 150, height: 150
@@ -146,6 +208,13 @@
     function downloadImage() {
         const card = document.getElementById('printableCard');
         html2canvas(card, { scale: 2 }).then(canvas => {
+=======
+        new QRCode(document.getElementById("qrcode"), { text: `SDA-${nama}-${joinDate}`, width: 150, height: 150 });
+    }
+
+    function downloadImage() {
+        html2canvas(document.getElementById('printableCard'), { scale: 2 }).then(canvas => {
+>>>>>>> 24c042f (add catatan untuk siswa)
             const link = document.createElement('a');
             link.download = `SDA-${document.getElementById('displayNama').innerText}.png`;
             link.href = canvas.toDataURL();
@@ -153,7 +222,7 @@
         });
     }
 
-    // LOGIC SCANNER
+    // SCANNER LOGIC
     let html5QrCode;
     function startScanner() {
         document.getElementById('start-btn').style.display = 'none';
@@ -175,20 +244,38 @@
         const now = new Date();
         const timeStr = now.toLocaleString('id-ID');
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+<<<<<<< HEAD
         
+=======
+>>>>>>> 24c042f (add catatan untuk siswa)
         // Cooldown 3 detik
         if(logs.length > 0 && logs[0].info === val) {
             if(new Date() - new Date(logs[0].ts) < 3000) return false;
         }
 
+<<<<<<< HEAD
         logs.unshift({ info: val, time: timeStr, ts: new Date() });
+=======
+        // Tambah properti 'note' kosong di awal
+        logs.unshift({ info: val, time: new Date().toLocaleString('id-ID'), ts: new Date(), note: "" });
+>>>>>>> 24c042f (add catatan untuk siswa)
         localStorage.setItem('sda_logs', JSON.stringify(logs));
         renderTable();
         return true;
     }
 
+    // FUNGSI BARU: Simpan Catatan dari Tabel
+    function saveNote(index) {
+        let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+        const noteValue = document.getElementById(`note-${index}`).value;
+        logs[index].note = noteValue;
+        localStorage.setItem('sda_logs', JSON.stringify(logs));
+        alert("Catatan untuk " + logs[index].info.split('-')[1] + " berhasil disimpan!");
+    }
+
     function renderTable() {
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+<<<<<<< HEAD
         document.getElementById('historyBody').innerHTML = logs.map(i => 
             `<tr><td>${i.info}</td><td>${i.time}</td></tr>`
         ).join('');
@@ -224,6 +311,40 @@
 
     function clearData() {
         if(confirm("Hapus semua riwayat scan?")) {
+=======
+        document.getElementById('historyBody').innerHTML = logs.map((i, index) => `
+            <tr>
+                <td>${i.info}</td>
+                <td>${i.time}</td>
+                <td>
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="note-${index}" class="note-input" value="${i.note || ''}" placeholder="Materi/progres...">
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 11px;" onclick="saveNote(${index})">Save</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function downloadCSV() {
+        let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
+        if(logs.length === 0) return alert("Data kosong!");
+
+        const now = new Date();
+        const namaFile = `${now.toLocaleDateString('id-ID', { weekday: 'long' })}-${now.getHours()}${now.getMinutes()}-absensi_sda.csv`;
+
+        // Update header CSV dengan kolom Catatan
+        let csv = "Data Siswa,Waktu,Catatan\n" + logs.map(l => `"${l.info}","${l.time}","${l.note || ''}"`).join("\n");
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = namaFile;
+        a.click();
+    }
+
+    function clearData() {
+        if(confirm("Hapus semua data?")) {
+>>>>>>> 24c042f (add catatan untuk siswa)
             localStorage.removeItem('sda_logs');
             renderTable();
         }
