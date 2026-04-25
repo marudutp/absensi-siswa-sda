@@ -12,28 +12,15 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 20px; background: #f0f2f5; color: #333; }
         .container { max-width: 800px; margin: auto; } /* Dilebarkan dikit buat kolom catatan */
         
-<<<<<<< HEAD
-        /* Form Styling */
-=======
->>>>>>> 24c042f (add catatan untuk siswa)
         .form-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: left; }
         .input-group { margin-bottom: 15px; display: flex; align-items: center; }
         .input-group label { width: 100px; font-weight: bold; font-size: 14px; }
         .input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         
-<<<<<<< HEAD
-        /* ID Card Styling */
-        #id-card-result { display: flex; justify-content: center; margin-top: 20px; }
-        .id-card {
-            width: 300px; height: 480px; background: white; border-radius: 15px;
-            border: 1px solid #ccc; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            position: relative; overflow: hidden; display: none;
-=======
         .id-card {
             width: 300px; height: 480px; background: white; border-radius: 15px;
             border: 1px solid #ccc; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
             position: relative; overflow: hidden; display: none; margin: auto;
->>>>>>> 24c042f (add catatan untuk siswa)
         }
         .card-header { background: #28a745; color: white; padding: 20px 10px; font-weight: bold; font-size: 18px; border-bottom: 5px solid #218838; }
         .card-body { padding: 20px; }
@@ -47,19 +34,6 @@
         .btn-danger { background: #dc3545; }
         .btn-block { width: 100%; margin: 10px 0; }
 
-<<<<<<< HEAD
-        /* Scanner & Table Styling */
-        #reader { width: 100%; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; margin-bottom: 20px; }
-        
-        /* PERBAIKAN SCROLL TABEL */
-        .table-container {
-            max-height: 350px; overflow-y: auto; background: white;
-            border: 1px solid #ddd; border-radius: 8px; margin-top: 10px;
-        }
-        table { width: 100%; border-collapse: collapse; }
-        th { position: sticky; top: 0; background: #eee; padding: 10px; font-size: 13px; z-index: 10; }
-        td { border-bottom: 1px solid #ddd; padding: 10px; font-size: 13px; }
-=======
         #reader { width: 100%; background: white; border-radius: 10px; overflow: hidden; border: 2px solid #ddd; margin-bottom: 20px; }
         
         /* SCROLL TABEL */
@@ -73,7 +47,6 @@
 
         /* Input Catatan di Tabel */
         .note-input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
->>>>>>> 24c042f (add catatan untuk siswa)
 
         @media print {
             body * { visibility: hidden; }
@@ -87,21 +60,9 @@
     <h2>SDA Music Management</h2>
 
     <div class="form-card">
-<<<<<<< HEAD
-        <h3 style="text-align: center;">Buat Kartu Siswa</h3>
-        <div class="input-group">
-            <label>Nama</label>
-            <input type="text" id="inputNama" placeholder="Nama Lengkap">
-        </div>
-        <div class="input-group">
-            <label>Join Date</label>
-            <input type="date" id="inputJoinDate">
-        </div>
-=======
         <h3 style="text-align: center;">ID Card Generator</h3>
         <div class="input-group"><label>Nama</label><input type="text" id="inputNama" placeholder="Nama Lengkap"></div>
         <div class="input-group"><label>Join Date</label><input type="date" id="inputJoinDate"></div>
->>>>>>> 24c042f (add catatan untuk siswa)
         <button class="btn btn-primary btn-block" onclick="generateIDCard()">Generate Kartu</button>
     </div>
 
@@ -111,46 +72,24 @@
             <div class="card-body">
                 <div id="qrcode"></div>
                 <div class="student-name" id="displayNama">NAMA SISWA</div>
-<<<<<<< HEAD
-                <div class="join-date">Joined: <span id="displayJoinDate">-</span></div>
-                <hr>
-                <p style="font-size: 10px; color: #999;">Tanda pengenal resmi siswa SDA Music</p>
-=======
                 <div style="font-size: 14px; color: #666; margin-bottom: 20px;">Joined: <span id="displayJoinDate">-</span></div>
                 <hr><p style="font-size: 9px; color: #999;">Tanda pengenal resmi siswa SDA Music</p>
->>>>>>> 24c042f (add catatan untuk siswa)
             </div>
         </div>
     </div>
 
-<<<<<<< HEAD
-    <div style="margin-top: 15px;">
-        <button id="btnPrint" class="btn btn-success" style="display:none;" onclick="window.print()">Cetak Kartu</button>
-        <button id="btnDownload" class="btn btn-warning" style="display:none;" onclick="downloadImage()">Download Gambar</button>
-=======
     <div style="margin-top: 10px;">
         <button id="btnPrint" class="btn btn-success" style="display:none;" onclick="window.print()">Cetak</button>
         <button id="btnDownload" class="btn btn-warning" style="display:none;" onclick="downloadImage()">Download PNG</button>
->>>>>>> 24c042f (add catatan untuk siswa)
     </div>
 
     <hr style="margin: 30px 0;">
 
-<<<<<<< HEAD
-    <h3>Absensi Scanner</h3>
-    <button id="start-btn" class="btn btn-success btn-block" onclick="startScanner()">Aktifkan Kamera</button>
-    <div id="reader"></div>
-    
-    <div id="result" style="display:none; background: #e7ffea; padding: 15px; border-radius: 8px; border: 1px solid #28a745; margin-bottom: 20px;">
-        <strong>Terdeteksi:</strong> <br>
-        <span id="scan-text" style="font-size: 16px; color: #28a745; font-weight: bold;"></span>
-=======
     <h3>Absensi & Jurnal Harian</h3>
     <button id="start-btn" class="btn btn-success btn-block" onclick="startScanner()">Aktifkan Kamera</button>
     <div id="reader"></div>
     <div id="result" style="display:none; background: #e7ffea; padding: 15px; margin-bottom: 20px; border: 1px solid #28a745; border-radius: 8px;">
         <strong>Terdeteksi:</strong> <span id="scan-text"></span>
->>>>>>> 24c042f (add catatan untuk siswa)
     </div>
 
     <div style="display: flex; gap: 5px;">
@@ -161,15 +100,11 @@
     <div class="table-container">
         <table>
             <thead>
-<<<<<<< HEAD
-                <tr><th>Siswa / ID</th><th>Waktu Scan</th></tr>
-=======
                 <tr>
                     <th style="width: 30%;">Siswa / ID</th>
                     <th style="width: 25%;">Waktu Scan</th>
                     <th style="width: 45%;">Catatan Pelajaran</th>
                 </tr>
->>>>>>> 24c042f (add catatan untuk siswa)
             </thead>
             <tbody id="historyBody"></tbody>
         </table>
@@ -177,19 +112,11 @@
 </div>
 
 <script>
-<<<<<<< HEAD
-    // LOGIC PEMBUAT KARTU
-    function generateIDCard() {
-        const nama = document.getElementById('inputNama').value;
-        const joinDate = document.getElementById('inputJoinDate').value;
-        if(!nama || !joinDate) return alert("Isi data dulu Lur!");
-=======
     // GENERATE KARTU
     function generateIDCard() {
         const nama = document.getElementById('inputNama').value;
         const joinDate = document.getElementById('inputJoinDate').value;
         if(!nama || !joinDate) return alert("Lengkapi data!");
->>>>>>> 24c042f (add catatan untuk siswa)
 
         document.getElementById('displayNama').innerText = nama;
         document.getElementById('displayJoinDate').innerText = joinDate;
@@ -198,23 +125,11 @@
         document.getElementById('btnDownload').style.display = 'inline-block';
 
         document.getElementById('qrcode').innerHTML = "";
-<<<<<<< HEAD
-        new QRCode(document.getElementById("qrcode"), {
-            text: `SDA-${nama}-${joinDate}`,
-            width: 150, height: 150
-        });
-    }
-
-    function downloadImage() {
-        const card = document.getElementById('printableCard');
-        html2canvas(card, { scale: 2 }).then(canvas => {
-=======
         new QRCode(document.getElementById("qrcode"), { text: `SDA-${nama}-${joinDate}`, width: 150, height: 150 });
     }
 
     function downloadImage() {
         html2canvas(document.getElementById('printableCard'), { scale: 2 }).then(canvas => {
->>>>>>> 24c042f (add catatan untuk siswa)
             const link = document.createElement('a');
             link.download = `SDA-${document.getElementById('displayNama').innerText}.png`;
             link.href = canvas.toDataURL();
@@ -244,21 +159,13 @@
         const now = new Date();
         const timeStr = now.toLocaleString('id-ID');
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-<<<<<<< HEAD
-        
-=======
->>>>>>> 24c042f (add catatan untuk siswa)
         // Cooldown 3 detik
         if(logs.length > 0 && logs[0].info === val) {
             if(new Date() - new Date(logs[0].ts) < 3000) return false;
         }
 
-<<<<<<< HEAD
-        logs.unshift({ info: val, time: timeStr, ts: new Date() });
-=======
         // Tambah properti 'note' kosong di awal
         logs.unshift({ info: val, time: new Date().toLocaleString('id-ID'), ts: new Date(), note: "" });
->>>>>>> 24c042f (add catatan untuk siswa)
         localStorage.setItem('sda_logs', JSON.stringify(logs));
         renderTable();
         return true;
@@ -275,43 +182,6 @@
 
     function renderTable() {
         let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-<<<<<<< HEAD
-        document.getElementById('historyBody').innerHTML = logs.map(i => 
-            `<tr><td>${i.info}</td><td>${i.time}</td></tr>`
-        ).join('');
-    }
-
-    function downloadCSV() {
-    let logs = JSON.parse(localStorage.getItem('sda_logs')) || [];
-    if(logs.length === 0) return alert("Data kosong!");
-
-    // 1. Ambil data waktu untuk nama file
-    const now = new Date();
-    const namaHari = now.toLocaleDateString('id-ID', { weekday: 'long' });
-    const tanggal = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-    
-    // JamMenitDetik agar benar-benar unik
-    const timestamp = now.getHours().toString().padStart(2, '0') + 
-                      now.getMinutes().toString().padStart(2, '0') + 
-                      now.getSeconds().toString().padStart(2, '0');
-
-    // 2. Susun nama file: Hari-Tanggal-Jam-absensi_sda.csv
-    const namaFileUnik = `${namaHari}-${tanggal}-${timestamp}-absensi_sda.csv`;
-
-    let csv = "Data Siswa,Waktu\n" + logs.map(l => `"${l.info}","${l.time}"`).join("\n");
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    
-    // Gunakan nama file unik di sini
-    a.download = namaFileUnik; 
-    a.click();
-}
-
-
-    function clearData() {
-        if(confirm("Hapus semua riwayat scan?")) {
-=======
         document.getElementById('historyBody').innerHTML = logs.map((i, index) => `
             <tr>
                 <td>${i.info}</td>
@@ -344,7 +214,6 @@
 
     function clearData() {
         if(confirm("Hapus semua data?")) {
->>>>>>> 24c042f (add catatan untuk siswa)
             localStorage.removeItem('sda_logs');
             renderTable();
         }
