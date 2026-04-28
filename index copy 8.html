@@ -510,58 +510,33 @@
             });
         }
 
-        // function saveData(val) {
-        //     let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) || [];
-        //     // Cooldown 5 detik biar nggak double scan
-        //     if (logs.length > 0 && logs[0].info === val && (new Date() - new Date(logs[0].ts) < 5000)) return false;
-
-        //     logs.unshift({ info: val, time: new Date().toLocaleString('id-ID'), ts: new Date(), note: "" });
-        //     localStorage.setItem(`logs_${clientId}`, JSON.stringify(logs));
-        //     renderTable();
-        //     return true;
-        // }
-
-        // Ganti fungsi ini agar dia bisa baca data lama (sda_logs) maupun data baru
-        function renderTable() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-
-            // LOGIKA MIGRASI: Coba ambil data baru, kalau kosong ambil data lama (sda_logs)
-            let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) ||
-                JSON.parse(localStorage.getItem('sda_logs')) || [];
-
-            const filtered = logs.filter(l => l.info.toLowerCase().includes(search));
-
-            document.getElementById('historyBody').innerHTML = filtered.map((i, idx) => `
-        <tr>
-            <td><strong>${i.info}</strong></td>
-            <td>${i.time}</td>
-            <td>
-                <div style="display:flex; gap:5px;">
-                    <input type="text" id="note-${idx}" class="note-input" value="${i.note || ''}" placeholder="Materi...">
-                    <button class="btn btn-success" style="padding: 5px 10px; font-size: 11px;" onclick="saveNote(${idx})">Save</button>
-                </div>
-            </td>
-        </tr>`).join('');
-        }
-
-        // Update juga fungsi simpan agar konsisten ke satu kunci (pilih salah satu)
         function saveData(val) {
-            // Saya sarankan tetap pakai logs_${clientId} agar antar klien tidak nyampur
-            let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) ||
-                JSON.parse(localStorage.getItem('sda_logs')) || [];
-
+            let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) || [];
+            // Cooldown 5 detik biar nggak double scan
             if (logs.length > 0 && logs[0].info === val && (new Date() - new Date(logs[0].ts) < 5000)) return false;
 
             logs.unshift({ info: val, time: new Date().toLocaleString('id-ID'), ts: new Date(), note: "" });
-
-            // Simpan ke kunci baru
             localStorage.setItem(`logs_${clientId}`, JSON.stringify(logs));
-
-            // Opsional: Hapus kunci lama agar bersih
-            localStorage.removeItem('sda_logs');
-
             renderTable();
             return true;
+        }
+
+        function renderTable() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) || [];
+            const filtered = logs.filter(l => l.info.toLowerCase().includes(search));
+
+            document.getElementById('historyBody').innerHTML = filtered.map((i, idx) => `
+            <tr>
+                <td><strong>${i.info}</strong></td>
+                <td>${i.time}</td>
+                <td>
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="note-${idx}" class="note-input" value="${i.note || ''}" placeholder="Materi...">
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 11px;" onclick="saveNote(${idx})">Save</button>
+                    </div>
+                </td>
+            </tr>`).join('');
         }
 
         function saveNote(idx) {
