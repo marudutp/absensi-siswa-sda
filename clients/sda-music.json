@@ -1,7 +1,9 @@
 {
     "school_name": "SDA Music School",
-    "theme_color": "#28a745",
+    "theme_color": "#32D6EC",
     "delete_password": "SDA-SUPER-SECRET",
     "logo_url": "clients/logo/sda-music.png",
-    "footer_text": "Tanda pengenal resmi sistem absensi SDA Music."
+    "footer_text": "Tanda pengenal resmi sistem absensi SDA Music.",
+    "joinedDate": "2026-03-25",
+    "tokenHash": "5d843495de867c9c1ad1a148868e28493482bc991356df410b6d288b41f1658d"
 }
