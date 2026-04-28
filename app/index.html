@@ -449,9 +449,9 @@
 
             if (config.logo_url) {
                 const v = new Date().getTime();
-                document.getElementById('ui-logo').src ="../" + config.logo_url + `?v=${v}`;
+                document.getElementById('ui-logo').src = "../" + config.logo_url + `?v=${v}`;
                 document.getElementById('ui-logo').style.display = 'block';
-                document.getElementById('card-logo').src ="../" + config.logo_url + `?v=${v}`;
+                document.getElementById('card-logo').src = "../" + config.logo_url + `?v=${v}`;
                 document.getElementById('card-logo').style.display = 'inline-block';
             }
 
@@ -523,12 +523,14 @@
         // }
 
         // Ganti fungsi ini agar dia bisa baca data lama (sda_logs) maupun data baru
+        // Fungsi Render Table yang lebih "Greedy" mencari data
         function renderTable() {
             const search = document.getElementById('searchInput').value.toLowerCase();
 
-            // LOGIKA MIGRASI: Coba ambil data baru, kalau kosong ambil data lama (sda_logs)
+            // Kita list kemungkinan kunci lama yang pernah ada
             let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) ||
-                JSON.parse(localStorage.getItem('sda_logs')) || [];
+                JSON.parse(localStorage.getItem('sda_logs')) ||
+                JSON.parse(localStorage.getItem('logs_sda-music')) || []; // Tambahan buat jaga-jaga data lama sda-music
 
             const filtered = logs.filter(l => l.info.toLowerCase().includes(search));
 
@@ -545,22 +547,21 @@
         </tr>`).join('');
         }
 
-        // Update juga fungsi simpan agar konsisten ke satu kunci (pilih salah satu)
         function saveData(val) {
-            // Saya sarankan tetap pakai logs_${clientId} agar antar klien tidak nyampur
+            // Ambil dari sumber mana pun yang ada isinya
             let logs = JSON.parse(localStorage.getItem(`logs_${clientId}`)) ||
-                JSON.parse(localStorage.getItem('sda_logs')) || [];
+                JSON.parse(localStorage.getItem('sda_logs')) ||
+                JSON.parse(localStorage.getItem('logs_sda-music')) || [];
 
             if (logs.length > 0 && logs[0].info === val && (new Date() - new Date(logs[0].ts) < 5000)) return false;
 
             logs.unshift({ info: val, time: new Date().toLocaleString('id-ID'), ts: new Date(), note: "" });
 
-            // Simpan ke kunci baru
+            // Simpan ke ID yang sedang aktif sekarang
             localStorage.setItem(`logs_${clientId}`, JSON.stringify(logs));
 
-            // Opsional: Hapus kunci lama agar bersih
-            localStorage.removeItem('sda_logs');
-
+            // Jangan langsung hapus 'sda_logs' dulu lur kalau masih ragu, 
+            // atau biarkan saja karena nanti akan tertimpa saat clientId baru menyimpan data.
             renderTable();
             return true;
         }
