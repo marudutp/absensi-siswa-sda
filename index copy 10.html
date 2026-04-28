@@ -20,15 +20,16 @@
         .hero-text h1 { font-size: 48px; line-height: 1.1; margin-bottom: 20px; color: var(--dark); }
         .hero-text p { font-size: 18px; color: #64748b; margin-bottom: 30px; }
         
-        /* Video Mockup Styling */
+        /* Mockup Glassmorphism */
         .mockup-container { position: relative; display: flex; justify-content: center; }
-        .mockup-video { 
-            width: 100%;
-            max-width: 320px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
-            border: 8px solid #334155;
-            background: #000;
+        .mockup-phone { 
+            width: 280px; height: 500px; background: #fff; border: 8px solid #334155; border-radius: 30px; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+        }
+        .mockup-card {
+            position: absolute; width: 220px; background: white; border-radius: 12px; 
+            padding: 15px; box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            bottom: 50px; right: -20px; transform: rotate(-5deg); border: 1px solid #e2e8f0;
         }
 
         /* Form Section */
@@ -47,12 +48,12 @@
 
         /* Success State */
         #success-msg { display: none; text-align: center; }
-        .check-icon { font-size: 60px; color: #22c55e; margin-bottom: 20px; }
+        .check-icon { font-size: 60px; color: var(--success); margin-bottom: 20px; }
 
         @media (max-width: 900px) {
             .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 20px; }
             .hero-text h1 { font-size: 36px; }
-            .mockup-container { margin-top: 40px; }
+            .mockup-container { display: none; }
         }
     </style>
 </head>
@@ -75,10 +76,24 @@
     </div>
     
     <div class="mockup-container">
-        <video autoplay loop muted playsinline class="mockup-video">
-            <source src="edutrack.mp4" type="video/mp4">
-            Browser Anda tidak mendukung tag video.
-        </video>
+        <div class="mockup-phone">
+            <div style="background:var(--primary); height:60px; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:bold;">SDA MUSIC SCHOOL</div>
+            <div style="padding:20px; text-align:center;">
+                <div style="width:100px; height:100px; background:#f1f5f9; margin:auto; border:2px dashed #cbd5e1; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><i class="fas fa-qrcode fa-3x"></i></div>
+                <div style="margin-top:20px; height:10px; width:60%; background:#f1f5f9; margin:10px auto;"></div>
+                <div style="height:10px; width:40%; background:#f1f5f9; margin:auto;"></div>
+            </div>
+        </div>
+        <div class="mockup-card">
+            <div style="display:flex; gap:10px; align-items:center;">
+                <div style="width:30px; height:30px; background:var(--primary); border-radius:50%;"></div>
+                <div>
+                    <div style="height:8px; width:80px; background:#e2e8f0;"></div>
+                    <div style="height:6px; width:50px; background:#f1f5f9; margin-top:4px;"></div>
+                </div>
+            </div>
+            <div style="margin-top:15px; font-size:10px; color:#94a3b8;">Hadir: 19:15 WIB</div>
+        </div>
     </div>
 </section>
 
@@ -109,7 +124,7 @@
         </div>
 
         <div id="success-msg">
-            <i class="fas fa-circle-check check-icon"></i>
+            <i class="fas fa-circle-check check-icon" style="color:#22c55e"></i>
             <h2>Terima Kasih, Lur!</h2>
             <p>Data institusi <strong><span id="res-nama">-</span></strong> sudah kami terima.</p>
             <p style="background:#f0fdf4; padding:15px; border-radius:12px; color:#166534;">
@@ -132,6 +147,7 @@
         const wa = document.getElementById('wa-user').value;
         const phoneAdmin = "628xxxxxxxxxx"; // GANTI DENGAN NOMOR WA SAMPEYAN
         
+        // Buat Pesan WA
         const text = encodeURIComponent(
             `*PENDAFTARAN EDUTRACK.PRO BARU*\n\n` +
             `Nama Institusi: ${nama}\n` +
@@ -140,10 +156,12 @@
             `_Mohon segera siapkan folder /clients/${nama.toLowerCase().replace(/\s+/g, '-')} dan konfigurasinya._`
         );
         
+        // Tampilkan State Sukses
         document.getElementById('res-nama').innerText = nama;
         document.getElementById('form-container').style.display = 'none';
         document.getElementById('success-msg').style.display = 'block';
 
+        // Buka WA (setelah delay 2 detik agar user sempat baca notifikasi sukses)
         setTimeout(() => {
             window.open(`https://wa.me/${phoneAdmin}?text=${text}`, '_blank');
         }, 2000);
